@@ -10,13 +10,26 @@
   <body>
     <h1>CRUD Simples</h1>
     <form method="post">
-      <input name="filme" type="text" placeholder="Nome do filme..." />
+      <input name="nome" type="text" placeholder="Nome do filme..." />
       <input name="nota" type="number" placeholder="Nota..." />
-      <button type="submit">Submit</button>
+      <button type="submit" onsubmit="submit()">Submit</button>
     </form>
     <hr />
-    <ul id="lista de filmes">
-      <li></li>
-    </ul>
+    <ul id="documentList"></ul>
+    <script>
+      async function getDocuments() {
+        const response = await fetch("http://localhost:8001/filmes");
+        const documents = await response.json();
+        const list = document.querySelector("#documentList");
+        console.log(documents);
+
+        list.innerHTML = "";
+        documents.forEach((document) => {
+          list.innerHTML += `<li>Filme: ${document.filme} || Nota: ${document.nota}</li>`;
+        });
+      }
+
+      window.onload = getDocuments();
+    </script>
   </body>
 </html>
