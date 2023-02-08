@@ -49,4 +49,18 @@ app.get("/filmes", (req, res) => {
   });
 });
 
+app.post("/filmes/:id", (req, res) => {
+  Filme.findByIdAndDelete(req.params.id, (err, removed) => {
+    if (err) {
+      return res.status(500).json({ error: err });
+    }
+
+    if (!removed) {
+      return res.status(404).json({ error: "Filme não encontrado" });
+    }
+
+    res.redirect("/");
+  });
+});
+
 app.listen(8001, console.log("Servidor rodando com sucesso!"));

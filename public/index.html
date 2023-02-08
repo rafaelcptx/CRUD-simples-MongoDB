@@ -21,39 +21,20 @@
         const response = await fetch("http://localhost:8001/filmes");
         const documents = await response.json();
         const list = document.querySelector("#documentList");
-        console.log(documents);
 
         list.innerHTML = "";
         documents.forEach((document) => {
           list.innerHTML += `
-          <div id=${document._id} class="filmCard">
+          <div class="filmCard">
             <p><b>Filme:</b> ${document.filme}</p>
             <p><b>Nota:</b> ${document.nota}</p>
             <span style="display: none">${document._id}</span>
-            <button>🖊</button>
-            <button class="deleteButton" onClick="deleteFilm()">❌</button>
+            <button id="editButton">🖊</button>
+            <form action="/filmes/${document._id}" method="post" class="deleteArea" >
+              <button type="submit" id="deleteButton">❌</button>
+            </form>
           </div>`;
         });
-      }
-
-      function getId() {
-        const buttons = document.querySelectorAll(".deleteButton");
-        var currentId;
-
-        buttons.forEach((button) => {
-          button.addEventListener("click", (event) => {
-            currentId = button.closest("div").id;
-          });
-        });
-
-        return currentId;
-      }
-
-      function editFilm() {}
-
-      function deleteFilm() {
-        let item = getId();
-        console.log(item);
       }
 
       window.onload = getDocuments();
